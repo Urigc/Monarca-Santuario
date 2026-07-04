@@ -18,7 +18,7 @@ class Settings:
     SANTUARIO_LAT: float = float(os.getenv("SANTUARIO_LAT", "19.1186"))
     SANTUARIO_LNG: float = float(os.getenv("SANTUARIO_LNG", "-100.0411"))
 
-    FRONTEND_ORIGIN: str = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173")
+    FRONTEND_ORIGIN: str = "https://mariposamonarca.netlify.app" 
 
     # Umbrales del Semáforo de Riesgo Microclimático (Sección 5, Capa 3)
     UMBRAL_VERDE_MIN = 10.0
