@@ -25,9 +25,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+allowed_origins = [
+    "https://mariposamonarca.netlify.app",  
+    "http://localhost:5173",  
+    "http://localhost:3000", 
+]
+
+if hasattr(settings, 'FRONTEND_ORIGIN') and settings.FRONTEND_ORIGIN:
+    allowed_origins.append(settings.FRONTEND_ORIGIN)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_ORIGIN, "http://localhost:5173"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
