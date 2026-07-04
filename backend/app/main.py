@@ -31,9 +31,6 @@ allowed_origins = [
     "http://localhost:3000", 
 ]
 
-if hasattr(settings, 'FRONTEND_ORIGIN') and settings.FRONTEND_ORIGIN:
-    allowed_origins.append(settings.FRONTEND_ORIGIN)
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
