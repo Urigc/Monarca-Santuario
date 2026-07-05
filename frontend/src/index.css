@@ -1,3 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --verde-bosque: #2f5233;
   --verde-monarca: #ff8c42;
@@ -5,20 +10,93 @@
   --rojo-alerta: #c0392b;
   --naranja-precaucion: #e67e22;
   --verde-optimo: #27ae60;
+  --superficie: #ffffff;
+  --texto: #1e2a1e;
+}
+
+html.dark {
+  --crema-fondo: #12141a;
+  --superficie: #1e2130;
+  --texto: #f0efe8;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: "Segoe UI", system-ui, sans-serif;
+  font-family: "Inter", system-ui, sans-serif;
   background: var(--crema-fondo);
-  color: #1e2a1e;
+  color: var(--texto);
+  transition: background 0.3s ease, color 0.3s ease;
 }
+
+h1, h2, h3, .font-titulo { font-family: "Poppins", sans-serif; }
+
+/* Pilar 2: Tarjetas con Glassmorphism */
+.tarjeta-cristal {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+}
+
+/* Pilar 2: Botón con gradiente animado que brilla al hover */
+.boton-gradiente {
+  background: linear-gradient(270deg, #ff6b35, #ffd700, #ff6b35);
+  background-size: 200% 200%;
+  color: #1a1a2e;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 0.8rem 2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.boton-gradiente:hover {
+  animation: brilloGradiente 2s ease infinite;
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+  transform: translateY(-2px);
+}
+@keyframes brilloGradiente {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Pilar 2: Hero Section */
+.hero-monarca {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d6a4f 55%, #ff6b35 130%);
+  background-size: 200% 200%;
+  animation: brilloGradiente 12s ease infinite;
+}
+.hero-video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: 0.55;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(26,26,46,0.6), rgba(26,26,46,0.4) 50%, rgba(255,107,53,0.55));
+}
+.hero-contenido {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center;
+  color: white; text-align: center; padding: 1rem 1.5rem; max-width: 780px;
+}
+.hero-emoji { font-size: 4rem; margin-bottom: 1rem; }
+.hero-titulo { font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin: 0 0 1rem; }
+.hero-titulo-acento { color: #ff9d5c; }
+.hero-subtitulo { font-size: clamp(1rem, 2.4vw, 1.4rem); margin-bottom: 2rem; opacity: 0.95; }
 
 .app-layout {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
   height: 100vh;
 }
 
@@ -108,3 +186,83 @@ body {
 .marcador-parpadeante {
   animation: parpadeo 1.4s ease-in-out infinite;
 }
+
+.aleteo-mariposa {
+  display: inline-block;
+  animation: aleteo 0.35s ease-in-out infinite;
+}
+@keyframes aleteo {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-18deg) scale(1.08); }
+  75% { transform: rotate(18deg) scale(1.08); }
+}
+
+.leyenda-3d {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 0.8rem;
+  max-width: 260px;
+  background: rgba(26, 26, 46, 0.55);
+}
+.leyenda-3d strong { display: block; margin-bottom: 0.25rem; font-family: "Poppins", sans-serif; }
+.leyenda-3d p { margin: 0; opacity: 0.9; }
+
+/* ==================== Navegación por pestañas (Hero -> Dashboard) ==================== */
+.tabs-navegacion {
+  display: flex; gap: 0.5rem; padding: 0.5rem 1.25rem; background: var(--verde-bosque);
+}
+.tab-boton {
+  background: rgba(255,255,255,0.12); border: none; color: white; padding: 0.4rem 1rem;
+  border-radius: 999px; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;
+}
+.tab-boton.activo { background: var(--monarca-naranja, #ff6b35); font-weight: 700; }
+
+/* ==================== Biblioteca del Bosque ==================== */
+.biblioteca-bosque { padding: 1.5rem; max-width: 1000px; margin: 0 auto; }
+.seccion-biblioteca { margin-bottom: 3rem; }
+.texto-secundario { opacity: 0.75; font-size: 0.9rem; }
+
+.boton-secundario {
+  background: transparent; border: 1px solid currentColor; border-radius: 999px;
+  padding: 0.6rem 1.4rem; cursor: pointer; font-weight: 600; margin-left: 0.5rem;
+}
+
+/* Ciclo de vida */
+.ciclo-vida-escenario {
+  text-align: center; padding: 2rem; margin-top: 1rem; cursor: pointer;
+}
+.ciclo-vida-emoji { font-size: 5rem; user-select: none; }
+.ciclo-vida-tip { display: block; margin-top: 0.75rem; font-size: 0.8rem; opacity: 0.7; }
+.ciclo-vida-progreso { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1rem; }
+.ciclo-vida-punto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* Reels */
+.reel-tarjeta { padding: 1rem; margin-top: 1rem; }
+.reel-video { width: 100%; max-height: 420px; border-radius: 12px; background: black; }
+.reel-info { margin-top: 0.75rem; }
+.reels-miniaturas { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+.reel-miniatura {
+  background: rgba(0,0,0,0.06); border: none; border-radius: 8px; padding: 0.4rem 0.8rem;
+  cursor: pointer; font-size: 0.8rem;
+}
+.reel-miniatura.activa { background: var(--monarca-naranja, #ff6b35); color: white; }
+
+/* Galería de flora */
+.galeria-flora { margin-top: 0.5rem; }
+.camara-contenedor { margin-top: 1rem; }
+.camara-video { width: 100%; max-width: 480px; border-radius: 12px; background: black; }
+.camara-controles { margin-top: 0.75rem; display: flex; align-items: center; }
+.resultado-flora { padding: 1rem; margin-top: 1rem; max-width: 480px; }
+.grilla-flora { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.ficha-flora { padding: 1rem; }
+.ficha-flora em { display: block; font-size: 0.8rem; opacity: 0.7; margin: 0.2rem 0 0.5rem; }
+
+/* Badges / Ruta de aprendizaje */
+.grilla-badges { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem; }
+.badge-card { padding: 1.25rem; text-align: center; }
+.badge-icono { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
+.badge-bloqueado { opacity: 0.5; filter: grayscale(1); }
+.badge-fecha { display: block; margin-top: 0.5rem; font-size: 0.7rem; opacity: 0.6; }

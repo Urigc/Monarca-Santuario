@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
+import HeroSection from "./components/HeroSection.jsx";
 import MapDashboard from "./components/MapDashboard.jsx";
+import Mapa3DTerreno from "./components/Mapa3DTerreno.jsx";
+import BibliotecaDelBosque from "./components/biblioteca/BibliotecaDelBosque.jsx";
 import InsightsPanel from "./components/InsightsPanel.jsx";
 import ReporteForm from "./components/ReporteForm.jsx";
 import VotacionPanel from "./components/VotacionPanel.jsx";
+import DarkModeToggle from "./components/DarkModeToggle.jsx";
 import { useOnlineStatus } from "./hooks/useOnlineStatus.js";
 import { getReportesPendientes } from "./api/client.js";
 
@@ -16,7 +20,15 @@ const CAPAS_INICIALES = {
   siniestros: false,
 };
 
+const VISTAS = {
+  MAPA_2D: "mapa_2d",
+  MAPA_3D: "mapa_3d",
+  BIBLIOTECA: "biblioteca",
+};
+
 export default function App() {
+  const [mostrarHero, setMostrarHero] = useState(true);
+  const [vistaActiva, setVistaActiva] = useState(VISTAS.MAPA_2D);
   const [capasActivas, setCapasActivas] = useState(CAPAS_INICIALES);
   const { enLinea, pendientes, sincronizando } = useOnlineStatus();
   const [reportesPendientes, setReportesPendientes] = useState([]);
@@ -36,37 +48,75 @@ export default function App() {
   const toggleCapa = (clave) =>
     setCapasActivas((prev) => ({ ...prev, [clave]: !prev[clave] }));
 
+  if (mostrarHero) {
+    return <HeroSection onExplorar={() => setMostrarHero(false)} />;
+  }
+
   return (
     <div className="app-layout">
       <header className="app-header">
-        <h1>🦋 Santuario Digital Temascaltepec — Piedra Herrada</h1>
-        <span className={`estado-conexion ${enLinea ? "en-linea" : "fuera-linea"}`}>
-          {enLinea ? (sincronizando ? "Sincronizando…" : "En línea") : "Sin conexión"}
-          {pendientes > 0 ? ` · ${pendientes} reportes pendientes` : ""}
-        </span>
+        <h1 className="font-titulo">🦋 Santuario Digital Temascaltepec — Piedra Herrada</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <span className={`estado-conexion ${enLinea ? "en-linea" : "fuera-linea"}`}>
+            {enLinea ? (sincronizando ? "Sincronizando…" : "En línea") : "Sin conexión"}
+            {pendientes > 0 ? ` · ${pendientes} reportes pendientes` : ""}
+          </span>
+          <DarkModeToggle />
+        </div>
       </header>
 
-      <div className="dashboard-body">
-        <aside className="panel-capas">
-          <h3>Capas Territoriales</h3>
-          <PanelCapas capasActivas={capasActivas} toggleCapa={toggleCapa} />
-        </aside>
+      <nav className="tabs-navegacion">
+        <button
+          className={`tab-boton ${vistaActiva === VISTAS.MAPA_2D ? "activo" : ""}`}
+          onClick={() => setVistaActiva(VISTAS.MAPA_2D)}
+        >
+          🗺️ Mapa 2D
+        </button>
+        <button
+          className={`tab-boton ${vistaActiva === VISTAS.MAPA_3D ? "activo" : ""}`}
+          onClick={() => setVistaActiva(VISTAS.MAPA_3D)}
+        >
+          ⛰️ Vista 3D del Terreno
+        </button>
+        <button
+          className={`tab-boton ${vistaActiva === VISTAS.BIBLIOTECA ? "activo" : ""}`}
+          onClick={() => setVistaActiva(VISTAS.BIBLIOTECA)}
+        >
+          📚 Biblioteca del Bosque
+        </button>
+      </nav>
 
-        <main className="mapa-contenedor">
-          <MapDashboard capasActivas={capasActivas} />
-        </main>
+      {vistaActiva === VISTAS.BIBLIOTECA ? (
+        <div style={{ overflowY: "auto", flex: 1 }}>
+          <BibliotecaDelBosque />
+        </div>
+      ) : (
+        <div className="dashboard-body">
+          <aside className="panel-capas">
+            <h3>Capas Territoriales</h3>
+            <PanelCapas capasActivas={capasActivas} toggleCapa={toggleCapa} />
+          </aside>
 
-        <aside className="panel-lateral">
-          <InsightsPanel />
-          <hr />
-          <ReporteForm />
-          <hr />
-          <VotacionPanel
-            reportesPendientes={reportesPendientes}
-            onVotoRegistrado={retirarReporteVotado}
-          />
-        </aside>
-      </div>
+          <main className="mapa-contenedor">
+            {vistaActiva === VISTAS.MAPA_2D ? (
+              <MapDashboard capasActivas={capasActivas} />
+            ) : (
+              <Mapa3DTerreno />
+            )}
+          </main>
+
+          <aside className="panel-lateral">
+            <InsightsPanel />
+            <hr />
+            <ReporteForm />
+            <hr />
+            <VotacionPanel
+              reportesPendientes={reportesPendientes}
+              onVotoRegistrado={retirarReporteVotado}
+            />
+          </aside>
+        </div>
+      )}
     </div>
   );
 }
