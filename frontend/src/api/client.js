@@ -21,6 +21,22 @@ export const getSiniestros = () => apiGet("/api/v2/siniestros");
 export const getBrechasCortafuego = () => apiGet("/api/v2/siniestros/brechas-cortafuego");
 export const getAuditoriaForestal = () => apiGet("/api/v2/siniestros/auditoria-forestal");
 
+// ---- Biblioteca del Bosque (Pilar 1, sin quizzes) ----
+export const getContenidosEducativos = (nivel) =>
+  apiGet(`/api/v2/educacion/contenidos${nivel ? `?nivel=${nivel}` : ""}`);
+export const getFloraSantuario = () => apiGet("/api/v2/educacion/flora");
+export const getBadgesUsuario = (usuarioId) => apiGet(`/api/v2/educacion/badges/${usuarioId}`);
+
+export async function registrarProgresoContenido(usuarioIdentificador, idContenido) {
+  const res = await fetch(`${API_BASE_URL}/api/v2/educacion/progreso`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ usuario_identificador: usuarioIdentificador, id_contenido: idContenido }),
+  });
+  if (!res.ok) throw new Error(`Error al registrar progreso: ${res.status}`);
+  return res.json();
+}
+
 // ---- Módulo de Analítica (Sección 6) ----
 export const getInsights = () => apiGet("/api/v2/analitica/insights");
 export const getMuestreoLineal = (idSector) => apiGet(`/api/v2/analitica/muestreo-lineal?id_sector=${idSector}`);
