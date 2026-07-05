@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.jobs.cron_ingesta import iniciar_scheduler
-from app.routers import reportes, analitica, votaciones, microclima, avistamientos, siniestros
+from app.routers import reportes, analitica, votaciones, microclima, avistamientos, siniestros, educacion
 
 logging.basicConfig(level=logging.INFO)
 
@@ -25,15 +25,9 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-allowed_origins = [
-    "https://mariposamonarca.netlify.app",  
-    "http://localhost:5173",  
-    "http://localhost:3000", 
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=[settings.FRONTEND_ORIGIN, "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -45,6 +39,7 @@ app.include_router(votaciones.router)
 app.include_router(microclima.router)
 app.include_router(avistamientos.router)
 app.include_router(siniestros.router)
+app.include_router(educacion.router)
 
 
 @app.get("/")
