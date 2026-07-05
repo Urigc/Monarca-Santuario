@@ -14,7 +14,7 @@ const COLOR_POR_TIPO = {
  * interacción directa de los pobladores, en proceso de revisión
  * (estado_validacion = 'Pendiente' hasta que el comité ejidal vota).
  */
-export default function AuditoriaLayer() {
+export default function AuditoriaLayer({ onMarcaClic }) {
   const [reportes, setReportes] = useState([]);
 
   useEffect(() => {
@@ -36,6 +36,7 @@ export default function AuditoriaLayer() {
             fillOpacity: r.estado_validacion === "Pendiente" ? 0.9 : 0.4,
             className: r.estado_validacion === "Pendiente" ? "marcador-parpadeante" : "",
           }}
+          eventHandlers={onMarcaClic ? { click: onMarcaClic } : undefined}
         >
           <Popup>
             <strong>{r.tipo_suceso}</strong>

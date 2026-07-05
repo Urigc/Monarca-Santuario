@@ -2,7 +2,7 @@ import React from "react";
 import { Rectangle, Popup } from "react-leaflet";
 
 /** Capa 1: Delimitación Poligonal (Zonificación) — Núcleo vs Amortiguamiento. */
-export default function ZonificacionLayer({ sectores }) {
+export default function ZonificacionLayer({ sectores, onMarcaClic }) {
   return (
     <>
       {sectores.map((s) => (
@@ -17,6 +17,7 @@ export default function ZonificacionLayer({ sectores }) {
             weight: 2,
             fillOpacity: 0.08,
           }}
+          eventHandlers={onMarcaClic ? { click: onMarcaClic } : undefined}
         >
           <Popup>
             <strong>{s.nombre_sector}</strong>

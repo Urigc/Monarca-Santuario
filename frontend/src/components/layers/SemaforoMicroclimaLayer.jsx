@@ -8,7 +8,7 @@ const COLOR_POR_RIESGO = {
 };
 
 /** Capa 3: Semáforo de Riesgo Microclimático (Nodos Térmicos). */
-export default function SemaforoMicroclimaLayer({ microclima, sectores }) {
+export default function SemaforoMicroclimaLayer({ microclima, sectores, onMarcaClic }) {
   const centroDeSector = (idSector) => {
     const s = sectores.find((sec) => sec.id_sector === idSector);
     if (!s) return null;
@@ -30,6 +30,7 @@ export default function SemaforoMicroclimaLayer({ microclima, sectores }) {
               fillColor: COLOR_POR_RIESGO[registro.riesgo_congelacion] || "#999",
               fillOpacity: 0.75,
             }}
+            eventHandlers={onMarcaClic ? { click: onMarcaClic } : undefined}
           >
             <Popup>
               <strong>Riesgo: {registro.riesgo_congelacion}</strong>

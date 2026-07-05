@@ -16,7 +16,7 @@ const iconoAcceso = L.divIcon({
  * para posicionar cada nodo correctamente; mientras tanto se usa el
  * centro del santuario como marcador provisional.
  */
-export default function InfraestructuraLayer({ nodos }) {
+export default function InfraestructuraLayer({ nodos, onMarcaClic }) {
   return (
     <>
       {nodos.map((n) => {
@@ -26,6 +26,7 @@ export default function InfraestructuraLayer({ nodos }) {
             key={n.id_nodo}
             position={[n.latitud || 19.1186, n.longitud || -100.0411]}
             icon={iconoAcceso}
+            eventHandlers={onMarcaClic ? { click: onMarcaClic } : undefined}
           >
             <Popup>
               <strong>{n.nombre_paraje}</strong>
