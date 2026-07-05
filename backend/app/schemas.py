@@ -46,3 +46,42 @@ class VotoEjidalOut(BaseModel):
     id_validacion: int
     id_reporte: int
     estado_actual_reporte: str
+
+
+# ---------------------------------------------------------------------------
+# Biblioteca del Bosque (Pilar 1, ANEXO1) — sin quizzes por decisión del cliente
+# ---------------------------------------------------------------------------
+class ContenidoEducativoOut(BaseModel):
+    id_contenido: int
+    titulo: str
+    tipo: str
+    nivel: str
+    descripcion: Optional[str] = None
+    url_multimedia: Optional[str] = None
+    duracion_minutos: Optional[int] = None
+    orden_secuencial: int
+
+
+class FloraOut(BaseModel):
+    id_flora: int
+    nombre_comun: str
+    nombre_cientifico: Optional[str] = None
+    descripcion: Optional[str] = None
+    url_imagen_referencia: Optional[str] = None
+    etiquetas_ia: Optional[list[str]] = None
+
+
+class ProgresoIn(BaseModel):
+    usuario_identificador: str = Field(..., min_length=3)
+    id_contenido: int
+
+
+class BadgeOut(BaseModel):
+    id_badge: int
+    codigo: str
+    nombre: str
+    nivel_asociado: str
+    descripcion: Optional[str] = None
+    icono_emoji: str
+    obtenido: bool = False
+    fecha_obtencion: Optional[datetime] = None
