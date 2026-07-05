@@ -3,10 +3,12 @@ import HeroSection from "./components/HeroSection.jsx";
 import MapDashboard from "./components/MapDashboard.jsx";
 import Mapa3DTerreno from "./components/Mapa3DTerreno.jsx";
 import BibliotecaDelBosque from "./components/biblioteca/BibliotecaDelBosque.jsx";
+import BosqueAumentado from "./components/ar/BosqueAumentado.jsx";
 import InsightsPanel from "./components/InsightsPanel.jsx";
 import ReporteForm from "./components/ReporteForm.jsx";
 import VotacionPanel from "./components/VotacionPanel.jsx";
 import DarkModeToggle from "./components/DarkModeToggle.jsx";
+import GuardianPushBanner from "./components/GuardianPushBanner.jsx";
 import { useOnlineStatus } from "./hooks/useOnlineStatus.js";
 import { getReportesPendientes } from "./api/client.js";
 
@@ -24,6 +26,7 @@ const VISTAS = {
   MAPA_2D: "mapa_2d",
   MAPA_3D: "mapa_3d",
   BIBLIOTECA: "biblioteca",
+  BOSQUE_AUMENTADO: "bosque_aumentado",
 };
 
 export default function App() {
@@ -61,6 +64,7 @@ export default function App() {
             {enLinea ? (sincronizando ? "Sincronizando…" : "En línea") : "Sin conexión"}
             {pendientes > 0 ? ` · ${pendientes} reportes pendientes` : ""}
           </span>
+          <GuardianPushBanner />
           <DarkModeToggle />
         </div>
       </header>
@@ -84,13 +88,27 @@ export default function App() {
         >
           📚 Biblioteca del Bosque
         </button>
+        <button
+          className={`tab-boton ${vistaActiva === VISTAS.BOSQUE_AUMENTADO ? "activo" : ""}`}
+          onClick={() => setVistaActiva(VISTAS.BOSQUE_AUMENTADO)}
+        >
+          🔭 Bosque Aumentado
+        </button>
       </nav>
 
-      {vistaActiva === VISTAS.BIBLIOTECA ? (
+      {vistaActiva === VISTAS.BIBLIOTECA && (
         <div style={{ overflowY: "auto", flex: 1 }}>
           <BibliotecaDelBosque />
         </div>
-      ) : (
+      )}
+
+      {vistaActiva === VISTAS.BOSQUE_AUMENTADO && (
+        <div style={{ overflowY: "auto", flex: 1 }}>
+          <BosqueAumentado />
+        </div>
+      )}
+
+      {(vistaActiva === VISTAS.MAPA_2D || vistaActiva === VISTAS.MAPA_3D) && (
         <div className="dashboard-body">
           <aside className="panel-capas">
             <h3>Capas Territoriales</h3>

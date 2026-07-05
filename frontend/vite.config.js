@@ -9,6 +9,9 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "sw.js",
       registerType: "autoUpdate",
       includeAssets: ["icons/*.png"],
       manifest: {
@@ -24,26 +27,9 @@ export default defineConfig({
           { src: "icons/icon-512.png", sizes: "512x512", type: "image/png" }
         ]
       },
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: /\/api\/v2\/.*/,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "santuario-api-cache",
-              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 12 },
-              cacheableResponse: { statuses: [0, 200] }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/\{s\}\.tile\.openstreetmap\.org\/.*/,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "osm-tiles-cache",
-              expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 30 }
-            }
-          }
-        ]
+      injectManifest: {
+        // Se generan/precachean automáticamente los assets de build
+        globPatterns: ["**/*.{js,css,html,png,svg}"]
       }
     })
   ],

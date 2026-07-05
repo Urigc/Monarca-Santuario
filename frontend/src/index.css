@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,6 +12,22 @@
   --verde-optimo: #27ae60;
   --superficie: #ffffff;
   --texto: #1e2a1e;
+
+  /* Ajustes2.0: Guía de Estilo Visual (Design System oficial) */
+  --monarca-orange: #FF6B35;
+  --monarca-black: #1A1A2E;
+  --bosque-green: #2D6A4F;
+  --dorado-premium: #FFD700;
+  --cielo-blue: #4ECDC4;
+  --tierra-brown: #8B4513;
+
+  --gradient-hero: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+  --gradient-forest: linear-gradient(180deg, #2D6A4F 0%, #1B4332 100%);
+  --gradient-gold: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-dramatic: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.5);
 }
 
 html.dark {
@@ -30,7 +46,9 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-h1, h2, h3, .font-titulo { font-family: "Poppins", sans-serif; }
+h1, h2, h3, .font-titulo { font-family: "Montserrat", sans-serif; font-weight: 700; }
+.font-subtitulo { font-family: "Poppins", sans-serif; font-weight: 600; }
+.font-cuerpo { font-family: "Inter", sans-serif; }
 
 /* Pilar 2: Tarjetas con Glassmorphism */
 .tarjeta-cristal {
@@ -90,9 +108,55 @@ h1, h2, h3, .font-titulo { font-family: "Poppins", sans-serif; }
   color: white; text-align: center; padding: 1rem 1.5rem; max-width: 780px;
 }
 .hero-emoji { font-size: 4rem; margin-bottom: 1rem; }
-.hero-titulo { font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.1; margin: 0 0 1rem; }
-.hero-titulo-acento { color: #ff9d5c; }
-.hero-subtitulo { font-size: clamp(1rem, 2.4vw, 1.4rem); margin-bottom: 2rem; opacity: 0.95; }
+.hero-titulo { font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; margin: 0 0 1rem; }
+
+/* Ajustes2.0: Gradient text con shimmer animado */
+.hero-titulo-shimmer {
+  background: linear-gradient(90deg, #FF6B35, #F7931E, #FFD700, #FF6B35);
+  background-size: 300% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerTexto 4s linear infinite;
+}
+@keyframes shimmerTexto {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+.hero-subtitulo {
+  font-size: clamp(1rem, 2.4vw, 1.4rem);
+  margin-bottom: 2rem;
+  opacity: 0.95;
+  min-height: 1.6em;
+}
+.typewriter-cursor { animation: parpadeoCursor 0.8s steps(1) infinite; opacity: 0.8; }
+@keyframes parpadeoCursor { 50% { opacity: 0; } }
+
+.particulas-mariposas-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;
+}
+
+/* Ajustes2.0: Botón Primario (CTA) reutilizable */
+.boton-primario {
+  background: var(--gradient-hero);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 999px;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-dramatic);
+}
+.animate-pulso { animation: pulsoBoton 2s ease infinite; }
+@keyframes pulsoBoton {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0.55), var(--shadow-dramatic); }
+  50% { box-shadow: 0 0 0 14px rgba(255,107,53,0), var(--shadow-dramatic); }
+}
 
 .app-layout {
   display: grid;
@@ -204,11 +268,14 @@ h1, h2, h3, .font-titulo { font-family: "Poppins", sans-serif; }
   padding: 0.75rem 1rem;
   color: white;
   font-size: 0.8rem;
-  max-width: 260px;
-  background: rgba(26, 26, 46, 0.55);
+  max-width: 280px;
+  background: rgba(26, 26, 46, 0.6);
 }
-.leyenda-3d strong { display: block; margin-bottom: 0.25rem; font-family: "Poppins", sans-serif; }
-.leyenda-3d p { margin: 0; opacity: 0.9; }
+.leyenda-3d strong { display: block; margin-bottom: 0.4rem; font-family: "Montserrat", sans-serif; }
+.leyenda-3d-lista { list-style: none; margin: 0 0 0.5rem; padding: 0; }
+.leyenda-3d-lista li { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.25rem; }
+.leyenda-punto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.leyenda-3d-tip { margin: 0; opacity: 0.75; font-size: 0.72rem; }
 
 /* ==================== Navegación por pestañas (Hero -> Dashboard) ==================== */
 .tabs-navegacion {
@@ -266,3 +333,54 @@ h1, h2, h3, .font-titulo { font-family: "Poppins", sans-serif; }
 .badge-icono { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
 .badge-bloqueado { opacity: 0.5; filter: grayscale(1); }
 .badge-fecha { display: block; margin-top: 0.5rem; font-size: 0.7rem; opacity: 0.6; }
+
+/* ==================== Pilar 3: Bosque Aumentado ==================== */
+.bosque-aumentado {
+  display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem;
+  padding: 1.5rem; max-width: 1100px; margin: 0 auto;
+}
+.bosque-aumentado-columna > * + * { margin-top: 2rem; }
+.identificador-ar, .puntos-interes-ar { max-width: 640px; }
+
+.ar-escenario { position: relative; border-radius: 12px; overflow: hidden; max-width: 640px; }
+.ar-video { width: 100%; display: block; background: black; }
+.ar-marcador {
+  position: absolute; top: 20%; transform: translateX(-50%);
+  padding: 0.5rem 0.75rem; color: white; text-align: center; font-size: 0.8rem;
+  display: flex; flex-direction: column; align-items: center; min-width: 90px;
+}
+.ar-marcador-icono { font-size: 1.5rem; }
+.ar-aviso {
+  position: absolute; bottom: 12px; left: 12px; right: 12px;
+  background: rgba(26,26,46,0.75); color: white; padding: 0.5rem 0.75rem;
+  border-radius: 8px; font-size: 0.8rem; text-align: center;
+}
+
+.badge-mini {
+  display: inline-block; margin-top: 0.5rem; font-size: 0.75rem;
+  background: var(--gradient-gold); color: #1a1a2e; padding: 0.2rem 0.6rem;
+  border-radius: 999px; font-weight: 600;
+}
+
+.caza-tesoro { padding: 1.25rem; }
+.barra-progreso { background: rgba(0,0,0,0.1); border-radius: 999px; height: 10px; overflow: hidden; margin: 0.5rem 0 1rem; }
+.barra-progreso-relleno { height: 100%; background: var(--gradient-hero); transition: width 0.4s ease; }
+.lista-especies-tesoro { list-style: none; padding: 0; margin: 0; font-size: 0.85rem; }
+.lista-especies-tesoro li { padding: 0.3rem 0; opacity: 0.6; }
+.lista-especies-tesoro li.encontrada { opacity: 1; font-weight: 600; }
+
+@media (max-width: 900px) {
+  .bosque-aumentado { grid-template-columns: 1fr; }
+}
+
+/* Pilar 4: Guardian Push */
+.guardian-push-boton {
+  background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
+  color: white; padding: 0.35rem 0.8rem; border-radius: 999px; cursor: pointer;
+  font-size: 0.78rem; font-weight: 600;
+}
+.guardian-push-boton:disabled { opacity: 0.6; cursor: wait; }
+.guardian-push-estado.activo {
+  font-size: 0.78rem; background: rgba(39,174,96,0.25); color: white;
+  padding: 0.35rem 0.8rem; border-radius: 999px;
+}

@@ -37,6 +37,28 @@ export async function registrarProgresoContenido(usuarioIdentificador, idConteni
   return res.json();
 }
 
+// ---- Pilar 3: Realidad Aumentada "Bosque Aumentado" ----
+export const getPuntosInteresAR = () => apiGet("/api/v3/ar/puntos-interes");
+export const getEspeciesAR = (tipoEspecie) =>
+  apiGet(`/api/v3/ar/especies${tipoEspecie ? `?tipo_especie=${tipoEspecie}` : ""}`);
+export const getProgresoCazaTesoro = (usuarioId) =>
+  apiGet(`/api/v3/ar/caza-tesoro/progreso/${usuarioId}`);
+
+export async function registrarHallazgoAR(usuarioIdentificador, idFlora, coords) {
+  const res = await fetch(`${API_BASE_URL}/api/v3/ar/caza-tesoro/hallazgo`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      usuario_identificador: usuarioIdentificador,
+      id_flora: idFlora,
+      latitud_hallazgo: coords?.latitud,
+      longitud_hallazgo: coords?.longitud,
+    }),
+  });
+  if (!res.ok) throw new Error(`Error al registrar hallazgo: ${res.status}`);
+  return res.json();
+}
+
 // ---- Módulo de Analítica (Sección 6) ----
 export const getInsights = () => apiGet("/api/v2/analitica/insights");
 export const getMuestreoLineal = (idSector) => apiGet(`/api/v2/analitica/muestreo-lineal?id_sector=${idSector}`);

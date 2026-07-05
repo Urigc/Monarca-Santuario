@@ -1,23 +1,28 @@
 import React from "react";
 import { motion } from "framer-motion";
+import HeroTitulo from "./HeroTitulo.jsx";
+import SubtituloTypewriter from "./SubtituloTypewriter.jsx";
+import ParticulasMariposas from "./ParticulasMariposas.jsx";
+import ButtonPrimary from "./ui/ButtonPrimary.jsx";
 
 /**
- * Pilar 2 (ANEXO1): Hero Section de bienvenida.
- * Usa un gradiente animado como fondo por defecto (sin depender de un
- * asset de video que el usuario aún no ha subido); si existe
- * /videos/monarca-flight.mp4 en /public, se reproduce automáticamente.
+ * Hero Section (ANEXO1 Pilar 2 + Ajustes2.0).
+ * Fondo con gradiente animado (o video si se sube
+ * /public/videos/monarca-flight.mp4), partículas de mariposas,
+ * título con stagger + shimmer, subtítulo typewriter y CTA con pulse.
  */
 export default function HeroSection({ onExplorar }) {
   return (
     <div className="hero-monarca">
-      <video autoPlay loop muted playsInline className="hero-video" poster="">
+      <video autoPlay loop muted playsInline className="hero-video">
         <source src="/videos/monarca-flight.mp4" type="video/mp4" />
       </video>
       <div className="hero-overlay" />
+      <ParticulasMariposas cantidad={16} />
 
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="hero-contenido"
       >
@@ -29,25 +34,14 @@ export default function HeroSection({ onExplorar }) {
           🦋
         </motion.div>
 
-        <h1 className="font-titulo hero-titulo">
-          Santuario Digital
-          <br />
-          <span className="hero-titulo-acento">Temascaltepec</span>
-        </h1>
+        <HeroTitulo />
+        <SubtituloTypewriter texto="Únete a la revolución digital para preservar a la mariposa monarca en Piedra Herrada" />
 
-        <p className="hero-subtitulo">
-          Únete a la revolución digital para preservar a la mariposa monarca
-          en Piedra Herrada
-        </p>
-
-        <motion.button
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.95 }}
-          className="boton-gradiente"
-          onClick={onExplorar}
-        >
-          Explorar el Bosque 🦋
-        </motion.button>
+        <div style={{ marginTop: "1.5rem" }}>
+          <ButtonPrimary onClick={onExplorar} icon="🦋" pulso>
+            Explorar el Bosque
+          </ButtonPrimary>
+        </div>
       </motion.div>
     </div>
   );
